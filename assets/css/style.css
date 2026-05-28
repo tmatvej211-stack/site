@@ -1,0 +1,1977 @@
+body {
+  margin: 0;
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: white;
+  background: url('../images/bg.png') repeat;
+  background-size: cover;
+  min-height: 100vh;  
+  background-color: #0f0f10;
+}
+
+.step-mine-coeff{
+    font-size: 9px;
+    margin-top: 2px; /* Отступ между коэффициентом и шагом */
+    position: static; /* Убираем absolute, так как теперь используем flex */
+    line-height: 1; /* Убираем лишний межстрочный интервал */
+}
+
+.carousel {
+    position: relative;
+    width: 100%;
+    max-width: 400px; /* ограничиваем ширину по реальному размеру картинки */
+    aspect-ratio: 400 / 250; /* сохраняем пропорции */
+    overflow: hidden;
+    border-radius: 12px;
+    margin: 0 auto; /* центрируем на странице */
+}
+
+.carousel-inner {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.4s ease;
+}
+
+.carousel-slide {
+    flex: 0 0 100%;
+}
+
+.carousel-slide img {
+    width: 100%;   /* растягиваем по ширине контейнера */
+    height: 100%;  /* высота будет по aspect-ratio контейнера */
+    object-fit: cover; /* обрезаем лишнее, сохраняем пропорции */
+    display: block;
+}
+  .carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.45);
+    border: none;
+    color: #fff;
+    font-size: 24px;
+    padding: 8px 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    user-select: none;
+    z-index: 10;
+  }
+  .carousel-btn.prev { left: 12px; }
+  .carousel-btn.next { right: 12px; }
+
+.carousel-indicators {
+  position: relative; /* вместо absolute */
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+      justify-content: center;
+  display: flex;
+  gap: 4px; /* чуть меньше расстояние */
+  margin-top: 8px; /* отступ вниз от карусели */
+}
+
+.indicator {
+  width: 8px;   /* уменьшено с 12px */
+  height: 8px;  /* уменьшено с 12px */
+  background: rgba(255,255,255,0.5);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.indicator.active {
+  background: white;
+}
+  
+       #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #0f0f10;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease;
+        }
+        
+        .preloader-content {
+            text-align: center;
+        }
+        
+        .preloader-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(0, 217, 126, 0.3);
+            border-top-color: #00d97e;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        .preloader-text {
+            color: #00d97e;
+            font-size: 18px;
+            margin-top: 15px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+		
+.minesweeper-content {
+  padding: 16px;
+  color: white;
+  max-width: 414px;
+  margin: 0 auto;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.fair-icon {
+    width: 40px;
+    height: 40px;
+    border: 2px solid #00ff88;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #00ff88;
+    font-size: 18px;
+}
+
+
+
+/* Шапка игры */
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+  .multiplier-buttons {
+    display: flex;
+    gap: 10px;
+  }
+
+  .multiplier-buttons .btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2em;
+  }
+
+  .multiplier-buttons .x2 { background-color: #444; }
+  .multiplier-buttons .x3 { background-color: #d4a017; }
+  .multiplier-buttons .x5 { background-color: #d32f2f; }
+  .multiplier-buttons .x50 { background-color: #4caf50; }
+
+  .multiplier-buttons .btn:hover {
+    opacity: 0.85;
+  }
+  
+   .bets-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    max-width: 450px;
+  }
+  
+
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}  
+
+  .bet-card {
+    background-color: #1c1c1c;
+    border-radius: 12px;
+    padding: 12px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .bet-title {
+    font-weight: bold;
+    font-size: 1.1em;
+  }
+  
+  #status-x50{
+    position: absolute;
+    left: 50%;
+	color: #888;
+	    font-family: monospace;
+	font-size: 20px;
+	text-align: center;
+    backface-visibility: hidden;
+    will-change: transform;
+	white-space: nowrap;
+    top: 65%;
+    transform: translate(-50%, -50%);
+    margin-top: 10px;  
+  }
+
+  /* Цвета заголовков */
+  .x2 .bet-title { color: #888; }
+  .x3 .bet-title { color: #d4a017; }
+  .x5 .bet-title { color: #d32f2f; }
+  .x50 .bet-title { color: #4caf50; }
+
+  .bet-value {
+    font-size: 1.4em;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .icon {
+    font-size: 0.8em;
+    opacity: 0.8;
+  }
+
+  .bet-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .bet-item {
+    display: flex;
+    justify-content: space-between;
+    background-color: #2a2a2a;
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 0.9em;
+    color: #ccc;
+  }
+
+  .no-bets {
+    color: #888;
+	text-align: center;
+    font-size: 0.9em;
+  } 
+
+        /* Абсолютное позиционирование сообщения ПОВЕРХ сетки */
+        .win-popup {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 240px;
+            background: radial-gradient(circle at center, #0e4f18 0%, #072b0c 100%);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            z-index: 100;
+        }
+
+        .win-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .win-multiplier {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .win-amount {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+
+.line-x50 {
+	width: 4px;
+	margin: 0 2px;
+	cursor: pointer;
+	border-radius: 2px;
+}
+
+.nickname-x50{
+    display: inline-block;
+    max-width: 80px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle; 
+}
+
+.x2-color {
+	background: #323537;
+	height: 18px;
+}
+
+.x3-color {
+	background: #da9a00;
+	height: 24px;
+}
+
+.x5-color {
+	background: #d83c33;
+	height: 30px;
+}
+
+.x50-color {
+	background: #50b251;
+	height: 36px;
+}
+
+.x50-history{
+	align-items: flex-end;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.deposit-amount-input {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.amount-input {
+  width: 100%;
+  padding-right: 70px; /* место для кнопок */
+}
+
+.input-buttons {
+  position: absolute;
+  right: 5px;
+  margin-top: -25px;
+  display: flex;
+  gap: 4px;
+}
+
+.input-btn {
+  padding: 8px 16px;
+  font-size: 16px!important;
+  border: none;
+  background: #444!important;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.input-btn:hover {
+  background: #666;
+}
+
+.fa-spinner {
+  animation: rotate 1s linear infinite;
+}
+
+  .scroll-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 10px;
+    scrollbar-width: none;
+  }
+  .scroll-container::-webkit-scrollbar {
+    display: none;
+  }
+  .coef {
+    position: relative; /* Оставляем relative для позиционирования span */
+    display: flex;
+    flex-direction: column; /* Размещаем элементы вертикально */
+    align-items: center; /* Центрируем по горизонтали */
+    justify-content: center; /* Центрируем по вертикали */
+    min-width: 80px;
+    height: 40px;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background: #0a0909;
+    border: 2px solid #3d2c2c;
+    opacity: 0.5;
+    transition: 0.2s;
+    text-align: center; /* Центрируем текст */
+    padding: 0 5px; /* Добавляем немного padding по бокам */
+  }
+  .coef.active {
+    background: #0a0909;
+    border: 2px solid #00ff88;
+    color: #00ff88;
+    opacity: 1;
+  }
+  .bomby {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    color: black;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    font-size: 14px;
+    font-weight: bold;
+    margin-right: 6px;
+  }
+  .coef-content {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+.wheel-container{
+	justify-content: center;
+    max-width: 100%;
+    width: 100%;
+    height: 150px;
+    overflow: hidden;
+    position: relative;
+}
+
+    .range-wrapper {
+      position: relative;
+      width: 300px;
+      background: #1b1b1b;
+      border-radius: 12px;
+      padding: 40px 20px 30px;
+      box-shadow: 0 0 10px #00c87533;
+      text-align: center;
+    }
+
+    .range-label {
+      font-size: 14px;
+      color: #888;
+      margin-bottom: 12px;
+    }
+
+    input[type="range"] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 8px;
+      background: #2b2b2b;
+      border-radius: 10px;
+      outline: none;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Track */
+    input[type="range"]::-webkit-slider-runnable-track {
+      background: linear-gradient(to right, #00ff9a, #00c875);
+      height: 8px;
+      border-radius: 10px;
+    }
+
+    input[type="range"]::-moz-range-track {
+      background: linear-gradient(to right, #00ff9a, #00c875);
+      height: 8px;
+      border-radius: 10px;
+    }
+
+    /* Thumb */
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      background: #00c875;
+      border: none;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #00ff9a;
+      margin-top: -6px; /* ← поднять выше, чтобы было по центру */
+      cursor: pointer;
+      position: relative;
+      z-index: 3;
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      background: #00c875;
+      border: none;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #00ff9a;
+      cursor: pointer;
+    }
+
+    .tooltip {
+      position: absolute;
+      bottom: 18px;
+      background-color: #1f1f1f;
+      color: #00ff9a;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: bold;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      z-index: 5;
+      border: 1px solid #00c875;
+      box-shadow: 0 0 8px #00ff9a66;
+      transform: translateX(-50%);
+	  
+	}
+	
+	
+.game-time {
+  font-size: 14px;
+  color: #888;
+}
+
+.game-title {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  flex-grow: 1;
+}
+
+.game-balance {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.balance-icon {
+  color: #00ff88;
+  font-weight: bold;
+}
+
+.balance-text {
+  font-size: 14px;
+}
+
+/* Основной контент игры */
+.mines-game {
+  background-color: #1a1a1c;
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.game-subtitle {
+  font-size: 18px;
+  text-align: center;
+  margin: 0 0 8px 0;
+  color: #888;
+}
+
+.game-multiplier {
+  font-size: 32px;
+  font-weight: bold;
+  text-align: center;
+  color: #00ff88;
+  margin-bottom: 20px;
+}
+
+/* Строка множителей */
+.multipliers-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.multiplier-box {
+  background-color: #252528;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* Блок ставки */
+.bet-section {
+  margin-bottom: 24px;
+}
+
+.bet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.bet-title {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.bet-step {
+  font-size: 14px;
+  color: #888;
+}
+
+.bet-input {
+  background-color: #252528;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.input-label {
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 8px;
+}
+
+.amount-input-container {
+  display: flex;
+  align-items: center;
+}
+
+.amount-input {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  width: 100%;
+  padding: 8px 0;
+  outline: none;
+}
+
+.multiplier-display {
+  color: #00ff88;
+  font-size: 24px;
+  font-weight: bold;
+  margin-left: 12px;
+}
+
+.quick-buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.quick-amount {
+  flex: 1;
+  background-color: #252528;
+  border: none;
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* Блок мин */
+.mines-section {
+  margin-bottom: 24px;
+}
+
+.mines-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.game-container {
+  text-align: center;
+}
+
+.multipliers {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.multiplier {
+  background-color: #1e2d1b;
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-weight: bold;
+  color: #0ff260;
+}
+
+.multiplier.selected {
+  background-color: #0f1d10;
+  color: #aaffaa;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(5, 60px);
+  grid-template-rows: repeat(5, 60px);
+  gap: 5px;
+}
+
+.cell {
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+	cursor:pointer;
+    background-color: #0f0f10 !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.w-tile {
+  background: url(../../assets/images/tile-mine.png?v=2);
+  background-size: cover;  
+  position: relative;
+}
+
+.justify-content-center{
+  justify-content:center;
+}
+
+.w-tile::after {
+  content: "";
+  font-weight: bold;
+  font-size: 24px;
+  color: #fff;
+}
+
+.gem {
+  position: relative;
+  background: url(../../assets/images/gem-mine.png?v=2);
+  background-size: cover;  
+}
+
+.gem::after {
+  content: "";
+  font-size: 24px;
+}
+
+.bomb {
+  background-color: #2e1f10;
+  background: url(../../assets/images/bomb-mine.png?v=2);
+  background-size: cover;
+  position: relative;
+}
+
+.bomb::after {
+  content: "";
+  font-size: 24px;
+}
+
+.mines-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.mine-option {
+  background-color: #252528;
+  border-radius: 8px;
+  padding: 16px 8px;
+  text-align: center;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.mine-option:hover {
+  background-color: #2e2e32;
+}
+
+/* Кнопка ставки */
+.place-bet-button {
+  width: 100%;
+  background-color: #00d97e;
+  color: #000;
+  border: none;
+  padding: 16px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Убираем стрелки у числового ввода */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}		
+
+button, input, textarea, select {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.history-content {
+  padding: 16px;
+  color: white;
+  max-width: 414px;
+  margin: 0 auto;
+}
+
+.history-header h1 {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.history-tabs {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  background-color: #1a1a1c;
+  border-radius: 12px;
+  padding: 4px;
+}
+
+.history-tab {
+  flex: 1;
+  padding: 10px;
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.history-tab.active {
+  background-color: #00d97e;
+  color: #000;
+  font-weight: bold;
+}
+
+.history-filters {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.filter-button {
+  padding: 8px 12px;
+  background-color: #1a1a1c;
+  border: none;
+  color: #888;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.filter-button.active {
+  background-color: #00d97e;
+  color: #000;
+  font-weight: bold;
+}
+
+.transactions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.transaction-day {
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.transaction-day.active {
+  display: flex;
+}
+
+.transaction-item {
+  display: flex;
+  align-items: center;
+  background-color: #1a1a1c;
+  border-radius: 12px;
+  padding: 12px 16px;
+  gap: 12px;
+}
+
+.transaction-icon {
+  font-size: 20px;
+  width: 24px;
+  text-align: center;
+}
+
+.transaction-item.success .transaction-icon {
+  color: #00ff88;
+}
+
+.transaction-item.failed .transaction-icon {
+  color: #ff4444;
+}
+
+.transaction-item.pending .transaction-icon {
+  color: #ffcc00;
+}
+
+.transaction-info {
+  flex: 1;
+}
+
+.transaction-type {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.transaction-date {
+  font-size: 12px;
+  color: #888;
+}
+
+.transaction-amount {
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.transaction-amount.positive {
+  color: #00ff88;
+}
+
+.transaction-amount.negative {
+  color: #ff4444;
+}
+
+.transaction-cancel {
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+}
+
+.transaction-cancel:hover {
+  color: #ff4444;
+}
+
+.betting-content {
+  padding: 16px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 414px;
+  margin: 0 auto;
+}
+
+button:disabled{
+	    opacity: 0.5;
+}
+
+/* Панель множителя */
+.multiplier-panel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #1a1a1c;
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-bottom: 8px;
+}
+
+.dice-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dice-icon {
+  font-size: 24px;
+}
+
+.multiplier-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.multiplier-value {
+  font-size: 18px;
+  font-weight: bold;
+  color: #00ff88;
+}
+
+.multiplier-label {
+  font-size: 12px;
+  color: #888;
+}
+
+.bet-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.bet-amount, .win-amount {
+  font-size: 14px;
+}
+
+.bet-label, .win-label {
+  color: #888;
+  margin-right: 6px;
+}
+
+.bet-value {
+  color: white;
+}
+
+.win-value {
+  color: #00ff88;
+  font-weight: bold;
+}
+
+/* Остальные стили (как в предыдущем примере) */
+.betting-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.betting-header h1 {
+  font-size: 20px;
+  margin: 0;
+}
+
+.betting-step {
+  font-size: 14px;
+  color: #888;
+}
+
+.betting-input-section {
+  background-color: #1a1a1c;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.input-label {
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 8px;
+}
+
+.amount-input-container {
+  display: flex;
+  align-items: center;
+}
+
+.amount-input {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  width: 100%;
+  padding: 8px 0;
+  outline: none;
+}
+
+.currency-symbol {
+  font-size: 24px;
+  font-weight: bold;
+  margin-left: 8px;
+}
+
+.quick-buttons {
+    display: flex;
+    flex-wrap: nowrap; /* Не переносить кнопки */
+    gap: 8px;
+    overflow-x: auto; /* Включает скролл на маленьких экранах */
+    padding-bottom: 4px;
+}
+
+.quick-amount {
+    background-color: #1a1a1c;
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    white-space: nowrap;
+    flex: 0 0 auto; /* Не расширяться, а сохранить размеры */
+}
+
+.outcome-section {
+  background-color: #1a1a1c;
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 8px;
+}
+
+.outcome-section h2 {
+  font-size: 18px;
+  margin-top: 0;
+  margin-bottom: 12px;
+}
+
+.outcome-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.outcome-option {
+  background-color: #252528;
+  border: none;
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.outcome-option.big {
+  font-size: 16px;
+  padding: 16px;
+  grid-column: span 2;
+}
+
+.number-bets {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+  grid-column: span 2;
+  margin-top: 8px;
+}
+
+.number-bet {
+    background-color: #252528;
+    color: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    text-align: center;
+}
+
+/* Стили для активных кнопок */
+.outcome-option.active,
+.number-bet.active {
+  background-color: #00d97e;
+  color: #000;
+  font-weight: bold;
+}
+
+.place-bet-button {
+  width: 100%;
+  background-color: #00d97e;
+  color: #000;
+  border: none;
+  padding: 16px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 16px;
+}
+.wallet-new {
+  display: flex;
+  align-items: center;
+  background-color: #1a1a1c;
+  padding: 2px 4px;
+  border-radius: 999px;
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
+  gap: 10px;
+}
+
+.wallet-icon {
+  width: 40px;
+  height: 40px;
+  border: 2px solid #00ff88;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #00ff88;
+  font-size: 18px;
+}
+
+.profile-new {
+  display: flex;
+  align-items: center;
+  background-color: #1a1a1c;
+  padding: 2px 4px;
+  border-radius: 999px;
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
+  gap: 10px;
+}
+
+.profile-text {
+  font-size: 12px;
+  color: #888;
+  text-align: right;
+}
+
+.profile-text strong {
+  color: #ffffff;
+  font-size: 16px;
+}
+
+.profile-icon {
+  width: 40px;
+  height: 40px;
+  border: 2px solid #00ff88;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #00ff88;
+  font-size: 18px;
+}
+
+  /* Скрываем содержимое по умолчанию */
+  .collapsed {
+    max-height: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* Открытое содержимое */
+  .expanded {
+    max-height: 500px; /* достаточно большое значение */
+    opacity: 1;
+    pointer-events: auto;
+  }
+  
+  #collapsible-content {
+    overflow: hidden;
+    max-height: 30px; /* высота при свёрнутом виде */
+    opacity: 0.5;
+    transition: max-height 0.4s ease, opacity 0.4s ease;
+  }
+
+  #collapsible-content.expanded {
+    max-height: 1000px; /* достаточно большое значение для раскрытия */
+    opacity: 1;
+  }
+
+.toggle-arrow,
+.toggle-arrow * {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* CSS */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(20, 20, 22, 1);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 8px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    z-index: 999;
+}
+
+.bottom-nav .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 12px;
+    transition: color 0.2s ease;
+}
+
+.bottom-nav .nav-item .icon {
+    font-size: 20px;
+    margin-bottom: 4px;
+}
+
+.bottom-nav .nav-item.active,
+.bottom-nav .nav-item:hover {
+    color: white;
+}
+
+/* Модалка */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    z-index: 1000;
+	padding-right: 15px;
+    padding-left: 15px;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s ease forwards;
+}
+
+.modal-dialog {
+    max-width: 500px;
+    width: 100%;
+    transform: translateY(-20px);
+    opacity: 0;
+    animation: slideUp 0.3s ease forwards;
+}
+
+.modal-content {
+    background: #1a1a1d;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+    border: 1px solid #2c2c2e;
+}
+
+/* header */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 18px;
+    border-bottom: 1px solid #2c2c2e;
+    background: #121214;
+}
+
+.modal-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.modal-close {
+    font-size: 22px;
+    cursor: pointer;
+    color: #bbb;
+    transition: color 0.2s ease;
+}
+.modal-close:hover {
+    color: #fff;
+}
+
+/* body */
+.modal-body {
+    padding: 18px;
+}
+
+.form-group {
+    margin-bottom: 14px;
+}
+
+/* footer */
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 14px 18px;
+    border-top: 1px solid #2c2c2e;
+    background: #121214;
+}
+
+/* Анимации */
+@keyframes fadeIn {
+    from { background: rgba(0, 0, 0, 0); }
+    to { background: rgba(0, 0, 0, 0.65); }
+}
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.toggle-arrow {
+  cursor: pointer;
+  font-size: 20px;
+  text-align: center;
+  margin-top: 5px;
+  transition: transform 0.3s ease;
+}
+
+.toggle-arrow:focus,
+.toggle-arrow:active {
+  outline: none;
+}
+
+
+  .toggle-arrow.rotated {
+    transform: rotate(180deg);
+  }
+
+.logo-image{
+  width:105px
+}
+
+.wallet-text {
+  font-size: 14px;
+  color: #888;
+}
+
+.wallet-text strong {
+  color: #ffffff;
+  font-size: 18px;
+}
+
+
+.image-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  padding: 16px;
+}
+
+.card-image {
+  width: 100%;
+  border-radius: 20px;
+  display: block;
+}
+
+
+.top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  max-width: 100%;
+  margin: 0 auto;
+  background-color: #0f0f10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+}
+
+.top-bar .wallet, .top-bar .profile {
+  background-color: #1a1a1a;
+  padding: 10px 16px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  box-shadow: 0 0 10px rgba(0,255,0,0.1);
+}
+
+.top-bar .icon {
+  margin-right: 8px;
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: bold;
+  color: #00ff88;
+  font-family: 'Comic Sans MS', cursive;
+}
+
+.main-content {
+  max-width: 414px;
+  margin: 110px auto 0; /* top: 110px, right/left auto, bottom: 0 */
+  background-size: cover;
+  min-height: 100vh;
+  padding: 10px;
+  margin-top: 90px;
+}
+
+.deposit-content {
+  padding: 16px;
+}
+
+.deposit-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.deposit-header h1 {
+  font-size: 24px;
+  margin: 0;
+}
+
+.deposit-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.deposit-tab {
+  flex: 1;
+  padding: 12px;
+  background-color: #1a1a1c;
+  border: none;
+  color: white;
+  font-size: 16px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.deposit-tab.active {
+  background-color: #00d97e;
+  color: #000;
+}
+
+.deposit-amount {
+  background-color: #1a1a1c;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.deposit-amount-label {
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 8px;
+}
+
+.deposit-amount-value {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.quick-amounts {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.quick-amount {
+  background-color: #1a1a1c;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  flex: 1;
+  min-width: 60px;
+}
+
+.wallet-amount {
+  background-color: #1a1a1c;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 24px;
+}
+
+.wallet-amount-label {
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 8px;
+}
+
+.wallet-amount-value {
+  font-size: 18px;
+}
+
+.deposit-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.footer-button {
+  background-color: transparent;
+  border: 1px solid #00d97e;
+  color: #00d97e;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.payment-methods {
+  margin-bottom: 24px;
+}
+
+.payment-methods-label {
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 8px;
+}
+
+.payment-method {
+  display: flex;
+  align-items: center;
+  background-color: #1a1a1c;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.payment-method-icon {
+  width: 40px;
+  height: 40px;
+  border: 2px solid #00ff88;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #00ff88;
+  font-size: 18px;
+  margin-right: 16px;
+}
+
+.payment-method-name {
+  flex: 1;
+  font-size: 16px;
+}
+
+.payment-method-arrow {
+  color: #888;
+}
+
+.continue-button {
+  width: 100%;
+  background-color: #00d97e;
+  color: #000;
+  border: none;
+  padding: 16px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.deposit-amount-input {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.currency-symbol {
+  font-size: 24px;
+  font-weight: bold;
+  margin-right: 8px;
+  color: white;
+}
+
+.amount-input {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  width: 100%;
+  padding: 0;
+  outline: none;
+}
+
+/* Убираем стрелки у input type number */
+.amount-input::-webkit-outer-spin-button,
+.amount-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.amount-input {
+  -moz-appearance: textfield;
+}
+
+.bonus-banner {
+  margin: 16px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #0c402e, #1a5e42);
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.profile-content {
+  padding: 16px;
+  color: white;
+}
+
+.profile-header h1 {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.balance-section {
+  background-color: #1a1a1c;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.balance-label {
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 8px;
+}
+
+.balance-value {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.profile-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.profile-tab {
+  flex: 1;
+  padding: 12px;
+  background-color: #1a1a1c;
+  border: none;
+  color: white;
+  font-size: 16px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.profile-tab.active {
+  background-color: #00d97e;
+  color: #000;
+}
+
+.withdraw-requirement {
+  background-color: #1a1a1c;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.requirement-text {
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 8px;
+}
+
+.requirement-value {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.referral-section {
+  background-color: #1a1a1c;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.referral-section h2 {
+  font-size: 18px;
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.referral-stats {
+  margin-bottom: 16px;
+}
+
+.referral-stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #888;
+}
+
+.stat-value {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.referral-description {
+  font-size: 14px;
+  color: #aaa;
+  margin-bottom: 16px;
+  line-height: 1.4;
+}
+
+.referral-link-container {
+  margin-bottom: 16px;
+}
+
+.referral-link-label {
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 8px;
+}
+
+.referral-link-box {
+  display: flex;
+  align-items: center;
+  background-color: #252528;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.referral-icon {
+  color: #00ff88;
+  margin-right: 12px;
+  font-size: 18px;
+}
+
+.referral-link {
+  flex: 1;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.referral-copy {
+  color: #00ff88;
+  font-size: 18px;
+  margin-left: 12px;
+}
+
+.referral-button {
+  width: 100%;
+  background-color: #00d97e;
+  color: #000;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.social-section {
+  margin-bottom: 16px;
+}
+
+.social-section h3 {
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+.social-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.social-button {
+  flex: 1;
+text-align: center;
+    text-decoration: none;  
+  background-color: #1a1a1c;
+  border: none;
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.promo-section h3 {
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+.promo-input-container {
+  display: flex;
+  gap: 8px;
+}
+
+.promo-input {
+  flex: 1;
+  background-color: #1a1a1c;
+  border: none;
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+}
+
+.promo-button {
+  background-color: #00d97e;
+  color: #000;
+  border: none;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.bonus-banner h1 {
+  font-size: 24px;
+  margin: 0;
+}
+
+.bonus-banner p {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #c0ffdd;
+}
+
+.bonus-banner button {
+  margin-top: 16px;
+  background-color: #00d97e;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 16px;
+  font-size: 18px;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  padding: 16px;
+}
+
+.card {
+  background-color: #1a1a1c;
+  border-radius: 20px;
+  padding: 16px;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.card h3 {
+  margin-top: 0;
+  font-size: 16px;
+}
+
+.card p {
+  color: #aaa;
+  font-size: 12px;
+}
+
+.tag {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 4px 8px;
+  background-color: #00d97e;
+  color: #000;
+  border-radius: 8px;
+  font-size: 10px;
+}
